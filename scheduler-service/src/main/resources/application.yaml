@@ -1,3 +1,16 @@
+server:
+  port: 8088
+
 spring:
   application:
     name: scheduler-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+
+logging:
+  level:
+    com.shopease: DEBUG

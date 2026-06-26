@@ -1,3 +1,16 @@
+server:
+  port: 8089
+
 spring:
   application:
     name: graphql-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+
+logging:
+  level:
+    com.shopease: DEBUG

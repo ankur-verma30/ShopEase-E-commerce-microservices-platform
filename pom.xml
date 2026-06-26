@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Spring Boot manages all dependency versions for us -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.5</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.shopease</groupId>
+    <artifactId>shopease-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <!-- "pom" means this is a parent — it produces no JAR itself -->
+    <packaging>pom</packaging>
+    <name>ShopEase - E-Commerce Microservices Platform</name>
+
+    <!-- All child modules listed here -->
+    <modules>
+        <module>discovery-server</module>
+        <module>common-lib</module>
+        <module>api-gateway</module>
+        <module>auth-service</module>
+        <module>user-service</module>
+        <module>product-service</module>
+        <module>order-service</module>
+        <module>inventory-service</module>
+        <module>notification-service</module>
+        <module>payment-service</module>
+        <module>graphql-service</module>
+        <module>scheduler-service</module>
+    </modules>
+
+    <properties>
+        <!-- All child modules use Java 21 — set once here -->
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Spring Cloud compatible with Spring Boot 3.3.x -->
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+    </properties>
+
+    <!-- Centrally manage Spring Cloud dependency versions -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- These are available in ALL child modules automatically -->
+    <dependencies>
+        <!-- Lombok: generates @Data, @Builder, @Slf4j, etc. at compile time -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Testing framework: available in all modules -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <!-- Exclude Lombok from the final JAR — it's only needed at compile time -->
+                        <excludes>
+                            <exclude>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                            </exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
